@@ -60,55 +60,88 @@ def perform_calculus(op):
 # GUI Setup
 root = tk.Tk()
 root.title("Math Toolkit with Calculus")
-root.geometry("460x540")
-root.configure(bg="#f0f4f8")
+root.geometry("500x600")
+root.configure(bg="#f5f7fa")
 
+# Custom style
 style = ttk.Style()
-style.configure("TLabel", font=("Arial", 11))
-style.configure("TButton", font=("Arial", 11), padding=5)
+style.theme_use('clam')
 
-title = tk.Label(root, text="🧮 Math Toolkit", font=("Arial", 16, "bold"), bg="#f0f4f8", fg="#333")
-title.pack(pady=10)
+# Configure styles
+style.configure("TFrame", background="#f5f7fa")
+style.configure("TLabel", font=("Segoe UI", 11), background="#f5f7fa", foreground="#2d3436")
+style.configure("TButton", font=("Segoe UI", 10), padding=8, relief="flat", 
+                background="#3498db", foreground="white")
+style.map("TButton", 
+          background=[('active', '#2980b9'), ('pressed', '#2c3e50')],
+          foreground=[('active', 'white'), ('pressed', 'white')])
+style.configure("TLabelFrame", font=("Segoe UI", 12, "bold"), 
+               background="#f5f7fa", foreground="#2d3436", borderwidth=2)
+style.configure("TEntry", font=("Segoe UI", 11), padding=5, relief="flat")
+
+# Title
+title_frame = ttk.Frame(root)
+title_frame.pack(pady=(10, 5))
+title = tk.Label(title_frame, text="🧮 Advanced Math Toolkit", 
+                font=("Segoe UI", 18, "bold"), 
+                bg="#f5f7fa", fg="#3498db")
+title.pack()
 
 # --- Frame for Basic Operations ---
-frame1 = ttk.LabelFrame(root, text="Basic Operations")
+frame1 = ttk.LabelFrame(root, text="Basic Operations", padding=(15, 10))
 frame1.pack(padx=20, pady=10, fill="x")
 
 ttk.Label(frame1, text="Number 1:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
-entry1 = ttk.Entry(frame1)
-entry1.grid(row=0, column=1, padx=5, pady=5)
+entry1 = ttk.Entry(frame1, style="TEntry")
+entry1.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
 ttk.Label(frame1, text="Number 2:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
-entry2 = ttk.Entry(frame1)
-entry2.grid(row=1, column=1, padx=5, pady=5)
+entry2 = ttk.Entry(frame1, style="TEntry")
+entry2.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
 
-ttk.Button(frame1, text="Add", command=lambda: perform_operation('add')).grid(row=2, column=0, padx=5, pady=5)
-ttk.Button(frame1, text="Subtract", command=lambda: perform_operation('sub')).grid(row=2, column=1, padx=5, pady=5)
-ttk.Button(frame1, text="Multiply", command=lambda: perform_operation('mul')).grid(row=3, column=0, padx=5, pady=5)
-ttk.Button(frame1, text="Divide", command=lambda: perform_operation('div')).grid(row=3, column=1, padx=5, pady=5)
+button_frame = ttk.Frame(frame1)
+button_frame.grid(row=2, column=0, columnspan=2, pady=5)
+
+ttk.Button(button_frame, text="➕ Add", command=lambda: perform_operation('add')).grid(row=0, column=0, padx=5, pady=5)
+ttk.Button(button_frame, text="➖ Subtract", command=lambda: perform_operation('sub')).grid(row=0, column=1, padx=5, pady=5)
+ttk.Button(button_frame, text="✖ Multiply", command=lambda: perform_operation('mul')).grid(row=1, column=0, padx=5, pady=5)
+ttk.Button(button_frame, text="➗ Divide", command=lambda: perform_operation('div')).grid(row=1, column=1, padx=5, pady=5)
 
 # --- Frame for Expression Evaluation ---
-frame2 = ttk.LabelFrame(root, text="Expression Solver")
+frame2 = ttk.LabelFrame(root, text="Expression Solver", padding=(15, 10))
 frame2.pack(padx=20, pady=10, fill="x")
 
-equation_entry = ttk.Entry(frame2, width=30)
-equation_entry.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+equation_entry = ttk.Entry(frame2, style="TEntry")
+equation_entry.pack(padx=10, pady=10, fill="x")
 
-ttk.Button(frame2, text="Evaluate / Solve", command=evaluate_expression).grid(row=1, column=0, columnspan=2, pady=5)
+ttk.Button(frame2, text="🔍 Evaluate / Solve", command=evaluate_expression).pack(pady=5)
 
 # --- Frame for Calculus ---
-frame3 = ttk.LabelFrame(root, text="Calculus (using 'x' as variable)")
+frame3 = ttk.LabelFrame(root, text="Calculus (using 'x' as variable)", padding=(15, 10))
 frame3.pack(padx=20, pady=10, fill="x")
 
-calculus_entry = ttk.Entry(frame3, width=30)
-calculus_entry.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+calculus_entry = ttk.Entry(frame3, style="TEntry")
+calculus_entry.pack(padx=10, pady=10, fill="x")
 
-ttk.Button(frame3, text="Differentiate", command=lambda: perform_calculus('diff')).grid(row=1, column=0, padx=5, pady=5)
-ttk.Button(frame3, text="Integrate", command=lambda: perform_calculus('integrate')).grid(row=1, column=1, padx=5, pady=5)
-ttk.Button(frame3, text="Limit (x→0)", command=lambda: perform_calculus('limit')).grid(row=1, column=2, padx=5, pady=5)
+calc_button_frame = ttk.Frame(frame3)
+calc_button_frame.pack(pady=5)
+
+ttk.Button(calc_button_frame, text="Differentiate", command=lambda: perform_calculus('diff')).grid(row=0, column=0, padx=5)
+ttk.Button(calc_button_frame, text="Integrate", command=lambda: perform_calculus('integrate')).grid(row=0, column=1, padx=5)
+ttk.Button(calc_button_frame, text="Limit (x→0)", command=lambda: perform_calculus('limit')).grid(row=0, column=2, padx=5)
 
 # --- Result Label ---
-result_label = tk.Label(root, text="Result will appear here", font=("Arial", 12), fg="blue", bg="#f0f4f8")
-result_label.pack(pady=15)
+result_frame = ttk.Frame(root)
+result_frame.pack(pady=15, fill="x")
+
+result_label = tk.Label(result_frame, text="Result will appear here", 
+                       font=("Segoe UI", 12, "bold"), 
+                       fg="#27ae60", bg="#f5f7fa",
+                       wraplength=450, justify="center")
+result_label.pack()
+
+# Footer
+footer = ttk.Label(root, text="Math Toolkit v1.0", font=("Segoe UI", 8), foreground="#7f8c8d")
+footer.pack(side="bottom", pady=5)
 
 root.mainloop()
